@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity Finance: EMI, NPV & Future Value Calculator</title>
+  <!-- Google Fonts: Outfit (headings) and Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="glass-bg"></div>
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+
+  <div class="container">
+
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12c-1.33-1-2.67-3-5-3C4.66 9 3 10.34 3 12s1.66 3 4 3c2.33 0 3.67-2 5-3m0 0c1.33 1 2.67 3 5 3c2.34 0 4-1.34 4-3s-1.66-3-4-3c-2.33 0-3.67 2-5 3z" />
+        </svg>
+        <div class="logo-text">
+          <h1>Infinity <span>Finance</span></h1>
+          <p>EMI, NPV & Future Value Calculator</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="contact-info">
+          <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"></line>
+          </svg>
+          <span>Call for loans: 1234567890</span>
+        </div>
+        <div class="theme-toggle-container">
+          <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+            <!-- Moon Icon (Dark Mode default) -->
+            <svg class="icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <!-- Sun Icon (Hidden by default) -->
+            <svg class="icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-navigation">
+      <button class="tab-btn active" data-tab="emi-tab" id="btnEmiTab">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="10" width="18" height="12" rx="2" ry="2"></rect>
+          <line x1="7" y1="6" x2="17" y2="6"></line>
+          <line x1="9" y1="2" x2="15" y2="2"></line>
+        </svg>
+        EMI Calculator
+      </button>
+      <button class="tab-btn" data-tab="npv-tab" id="btnNpvTab">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        Net Present Value (NPV)
+      </button>
+      <button class="tab-btn" data-tab="fv-tab" id="btnFvTab">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Future Value (FV)
+      </button>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="workspace-content">
+      
+      <!-- ================= FUTURE VALUE CALCULATOR ================= -->
+      <section id="fv-tab" class="tab-content">
+        <div class="calculator-grid">
+          <!-- Inputs Card -->
+          <div class="card card-inputs">
+            <h2 class="card-title">Future Value Parameters</h2>
+            <form id="fvForm" autocomplete="off">
+              <div class="input-group">
+                <label for="fvPv">Present Value (PV) / Starting Capital</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="fvPv" name="fvPv" min="0" step="any" value="10000" required>
+                </div>
+                <span class="input-helper">Initial lump sum to invest.</span>
+              </div>
+
+              <div class="grid-2col">
+                <div class="input-group">
+                  <label for="fvPmt">Periodic Addition (PMT)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">₹</span>
+                    <input type="number" id="fvPmt" name="fvPmt" min="0" step="any" value="500">
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="fvPmtGrowth">Annual Growth in PMT (%)</label>
+                  <div class="input-wrapper">
+                    <input type="number" id="fvPmtGrowth" name="fvPmtGrowth" min="0" max="100" step="any" value="0">
+                    <span class="input-suffix">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2col">
+                <div class="input-group">
+                  <label for="fvPmtFrequency">Contribution Frequency</label>
+                  <select id="fvPmtFrequency" name="fvPmtFrequency">
+                    <option value="1">Annually</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="4">Quarterly</option>
+                    <option value="12" selected>Monthly</option>
+                    <option value="26">Bi-Weekly</option>
+                    <option value="52">Weekly</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label for="fvPmtTiming">Contribution Timing</label>
+                  <select id="fvPmtTiming" name="fvPmtTiming">
+                    <option value="end" selected>End of Period</option>
+                    <option value="beginning">Beginning of Period</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid-2col">
+                <div class="input-group">
+                  <label for="fvRate">Annual Interest Rate (%)</label>
+                  <div class="input-wrapper">
+                    <input type="number" id="fvRate" name="fvRate" min="0" max="100" step="any" value="8" required>
+                    <span class="input-suffix">%</span>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label for="fvCompounding">Compounding Frequency</label>
+                  <select id="fvCompounding" name="fvCompounding">
+                    <option value="1" selected>Annually</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="4">Quarterly</option>
+                    <option value="12">Monthly</option>
+                    <option value="365">Daily</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="fvYears">Investment Period (Years)</label>
+                <div class="input-wrapper">
+                  <input type="number" id="fvYears" name="fvYears" min="1" max="100" step="1" value="10" required>
+                  <span class="input-suffix">Years</span>
+                </div>
+                <span class="input-helper">Time horizon of investment.</span>
+              </div>
+            </form>
+          </div>
+
+          <!-- Output & Charts Card -->
+          <div class="card card-results">
+            <h2 class="card-title">FV Analysis Summary</h2>
+            
+            <div class="results-hero">
+              <span class="results-hero-label">Estimated Future Value</span>
+              <span class="results-hero-val" id="fvResultValue">₹10,000.00</span>
+            </div>
+
+            <div class="results-breakdown">
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span class="legend-color legend-principal"></span>
+                  Initial Principal (PV)
+                </div>
+                <span class="breakdown-val" id="fvBreakdownPv">₹10,000.00</span>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span class="legend-color legend-contributions"></span>
+                  Total Contributions
+                </div>
+                <span class="breakdown-val" id="fvBreakdownContributions">₹0.00</span>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span class="legend-color legend-interest"></span>
+                  Total Interest Earned
+                </div>
+                <span class="breakdown-val" id="fvBreakdownInterest">₹0.00</span>
+              </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-container">
+              <canvas id="fvChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= NET PRESENT VALUE CALCULATOR ================= -->
+      <section id="npv-tab" class="tab-content">
+        <div class="calculator-grid">
+          <!-- Inputs Card -->
+          <div class="card card-inputs">
+            <h2 class="card-title">NPV Cash Flow Builder</h2>
+            <form id="npvForm" autocomplete="off">
+              <div class="grid-2col">
+                <div class="input-group">
+                  <label for="npvRate">Annual Discount Rate (%)</label>
+                  <div class="input-wrapper">
+                    <input type="number" id="npvRate" name="npvRate" min="0.001" max="100" step="any" value="10" required>
+                    <span class="input-suffix">%</span>
+                  </div>
+                  <span class="input-helper">Cost of capital / hurdle rate.</span>
+                </div>
+
+                <div class="input-group">
+                  <label for="npvInitialOutlay">Initial Investment (Year 0)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">₹</span>
+                    <input type="number" id="npvInitialOutlay" name="npvInitialOutlay" min="0" step="any" value="10000" required>
+                  </div>
+                  <span class="input-helper">Outflow as positive (e.g. 10000)</span>
+                </div>
+              </div>
+
+              <!-- Cash Flow List Table -->
+              <div class="cashflow-builder">
+                <div class="cashflow-header">
+                  <h3>Future Cash Flows</h3>
+                  <button type="button" id="btnAddCashFlow" class="btn btn-secondary btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Year
+                  </button>
+                </div>
+                
+                <div class="cashflow-table-container">
+                  <table class="cashflow-table">
+                    <thead>
+                      <tr>
+                        <th>Year</th>
+                        <th>Cash Inflow (₹)</th>
+                        <th>Yearly Investment (₹)</th>
+                        <th>Net Cash Flow (₹)</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cashFlowRows">
+                      <!-- Dynamically added rows will appear here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Output & Charts Card -->
+          <div class="card card-results">
+            <h2 class="card-title">NPV & Metrics Summary</h2>
+            
+            <div class="results-hero npv-hero">
+              <span class="results-hero-label">Net Present Value (NPV)</span>
+              <span class="results-hero-val" id="npvResultValue">₹0.00</span>
+              <span id="npvStatusBadge" class="status-badge positive">Profitable</span>
+            </div>
+
+            <!-- Multi-metrics Grid -->
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <span class="metric-label">Internal Rate of Return (IRR)</span>
+                <span class="metric-val" id="metricIrr">--</span>
+                <span class="metric-desc">Breakeven discount rate</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Profitability Index (PI)</span>
+                <span class="metric-val" id="metricPi">--</span>
+                <span class="metric-desc">Value created per ₹1 invested</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Payback Period</span>
+                <span class="metric-val" id="metricPayback">--</span>
+                <span class="metric-desc">Time to recover outlay</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Discounted Payback</span>
+                <span class="metric-val" id="metricDiscountedPayback">--</span>
+                <span class="metric-desc">Time to recover discounted outlay</span>
+              </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-container">
+              <canvas id="npvChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= EMI CALCULATOR ================= -->
+      <section id="emi-tab" class="tab-content active">
+        <div class="calculator-grid">
+          <!-- Inputs Card -->
+          <div class="card card-inputs">
+            <h2 class="card-title">EMI Loan Parameters</h2>
+            <form id="emiForm" autocomplete="off">
+              <!-- Mode Selection -->
+              <div class="mode-selector">
+                <label class="mode-option">
+                  <input type="radio" name="emiMode" value="emi" checked>
+                  <span>EMI Calculator</span>
+                </label>
+                <label class="mode-option">
+                  <input type="radio" name="emiMode" value="eligibility">
+                  <span>Loan Eligibility</span>
+                </label>
+              </div>
+
+              <!-- Input Group: Loan Amount (Principal) -->
+              <div class="input-group" id="groupEmiAmount">
+                <label for="emiAmount">Loan Amount (Principal)</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="emiAmount" name="emiAmount" min="1" step="any" value="100000" required>
+                </div>
+                <span class="input-helper">Total sum borrowed.</span>
+              </div>
+
+              <!-- Input Group: Comfortable Monthly EMI (Hidden by default) -->
+              <div class="input-group" id="groupComfortableEmi" style="display: none;">
+                <label for="emiComfortable">Comfortable Monthly EMI</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">₹</span>
+                  <input type="number" id="emiComfortable" name="emiComfortable" min="1" step="any" value="10000">
+                </div>
+                <span class="input-helper">The monthly payment you can comfortably afford.</span>
+              </div>
+
+              <!-- Input Group: Annual Interest Rate (%) -->
+              <div class="input-group">
+                <label for="emiRate">Annual Interest Rate (%)</label>
+                <div class="input-wrapper">
+                  <input type="number" id="emiRate" name="emiRate" min="0.001" max="100" step="any" value="7.5" required>
+                  <span class="input-suffix">%</span>
+                </div>
+                <span class="input-helper">Fixed annual lending rate.</span>
+              </div>
+
+              <!-- Input Group: Loan Tenure (Years) -->
+              <div class="input-group">
+                <label for="emiTenure">Loan Tenure (Years)</label>
+                <div class="input-wrapper">
+                  <input type="number" id="emiTenure" name="emiTenure" min="1" max="50" step="any" value="20" required>
+                  <span class="input-suffix">Years</span>
+                </div>
+                <span class="input-helper">Duration to repay the loan.</span>
+              </div>
+            </form>
+          </div>
+
+          <!-- Output & Charts Card -->
+          <div class="card card-results">
+            <h2 class="card-title">EMI Summary & Breakdown</h2>
+            
+            <div class="results-hero emi-hero">
+              <span class="results-hero-label" id="emiResultLabel">Monthly Installment (EMI)</span>
+              <span class="results-hero-val" id="emiResultValue">₹806.39</span>
+            </div>
+
+            <div class="results-breakdown">
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span class="legend-color legend-principal-emi"></span>
+                  <span id="lblBreakdownPrincipal">Principal Amount</span>
+                </div>
+                <span class="breakdown-val" id="emiBreakdownPrincipal">₹100,000.00</span>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span class="legend-color legend-interest-emi"></span>
+                  <span id="lblBreakdownInterest">Total Interest Paid</span>
+                </div>
+                <span class="breakdown-val" id="emiBreakdownInterest">₹93,533.60</span>
+              </div>
+              <div class="breakdown-item">
+                <div class="breakdown-label">
+                  <span id="lblBreakdownTotal">Total Amount Payable</span>
+                </div>
+                <span class="breakdown-val" id="emiBreakdownTotal">₹193,533.60</span>
+              </div>
+            </div>
+
+            <!-- Chart Section (Pie/Doughnut Chart) -->
+            <div class="chart-container" style="height: 220px; display: flex; justify-content: center; align-items: center;">
+              <canvas id="emiChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 Infinity Finance. Designed with precision for professional financial analysis.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
