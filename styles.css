@@ -1435,4 +1435,174 @@ select:focus {
   background: rgba(0, 0, 0, 0.01);
 }
 
+/* ================= HOME PAGE OVERHAUL: SERVICES & FAQs ================= */
+
+/* Corporate Profile */
+.corporate-profile-card::before {
+  background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+}
+
+.profile-services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .profile-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.profile-service-item {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-fast);
+}
+
+.profile-service-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.profile-service-icon {
+  background: var(--secondary-glow);
+  color: var(--secondary);
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.profile-service-item:hover .profile-service-icon {
+  background: var(--secondary);
+  color: #fff;
+}
+
+.profile-service-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.profile-service-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.profile-service-content p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* FAQs Card & Accordion */
+.faq-card::before {
+  background: var(--primary) !important;
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-md);
+  background: rgba(15, 22, 36, 0.2);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.faq-header {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  gap: 1.5rem;
+  transition: all var(--transition-fast);
+}
+
+.faq-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.faq-arrow {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--primary);
+  transition: transform var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.faq-item.active .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-item.active {
+  border-color: var(--primary);
+  background: rgba(15, 22, 36, 0.4);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-normal) cubic-bezier(0, 1, 0, 1);
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px; /* Allow expanding */
+  transition: max-height var(--transition-normal) cubic-bezier(1, 0, 1, 0);
+}
+
+.faq-answer p {
+  padding: 0 1.25rem 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Light Mode Overrides for Home Page */
+[data-theme="light"] .profile-service-item {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .profile-service-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .faq-item {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .faq-item.active {
+  background: #ffffff;
+}
+
+[data-theme="light"] .faq-header:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
 

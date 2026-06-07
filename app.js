@@ -126,24 +126,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Home Dashboard quick launch buttons
-  const launchButtons = document.querySelectorAll('.btn-launch');
-  launchButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetTab = btn.getAttribute('data-launch');
-      switchTab(targetTab);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // ================= FAQ ACCORDION LOGIC =================
+  const faqHeaders = document.querySelectorAll('.faq-header');
+  faqHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const faqItem = header.parentElement;
+      const isActive = faqItem.classList.contains('active');
+      
+      // Close all other FAQ items
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+        item.querySelector('.faq-answer').style.maxHeight = null;
+      });
+      
+      if (!isActive) {
+        faqItem.classList.add('active');
+        const answer = faqItem.querySelector('.faq-answer');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
     });
   });
-
-  // Home Dashboard "View Services Offered" button
-  const btnHomeInquire = document.getElementById('btnHomeInquire');
-  if (btnHomeInquire) {
-    btnHomeInquire.addEventListener('click', () => {
-      switchTab('services-tab');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
 
   function switchTab(tabId) {
     tabButtons.forEach(btn => {
@@ -1110,5 +1112,123 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (balance <= 0) break;
     }
+  }
+
+  // ================= SHARE SUMMARY LOGIC =================
+  setupShareButton('btnShareEmi', () => {
+    const activeMode = document.querySelector('input[name="emiMode"]:checked').value;
+    const rate = parseFloat(emiRateInput.value) || 0;
+    const years = parseFloat(emiTenureInput.value) || 0;
+    
+    if (activeMode === 'emi') {
+      const principal = parseFloat(emiAmountInput.value) || 0;
+      const emiVal = document.getElementById('emiResultValue').textContent;
+      const interestVal = document.getElementById('emiBreakdownInterest').textContent;
+      const totalVal = document.getElementById('emiBreakdownTotal').textContent;
+      
+      return `Infinite Finance EMI Estimate:
+--------------------------------
+Loan Principal: ${formatCurrency(principal)}
+Interest Rate: ${rate}% p.a.
+Tenure: ${years} Years
+Monthly EMI: ${emiVal}
+Total Interest Paid: ${interestVal}
+Total Amount Payable: ${totalVal}
+--------------------------------
+Calculate yours at: https://mriduljhawar15.github.io/infinity-finance/`;
+    } else {
+      const comfortableEmi = parseFloat(emiComfortableInput.value) || 0;
+      const eligibleLoan = document.getElementById('emiResultValue').textContent;
+      const interestVal = document.getElementById('emiBreakdownInterest').textContent;
+      const totalVal = document.getElementById('emiBreakdownTotal').textContent;
+      
+      return `Infinite Finance Loan Eligibility Estimate:
+--------------------------------
+Comfortable Monthly EMI: ${formatCurrency(comfortableEmi)}
+Interest Rate: ${rate}% p.a.
+Tenure: ${years} Years
+Maximum Eligible Loan: ${eligibleLoan}
+Total Repayments: ${totalVal}
+Total Interest Paid: ${interestVal}
+--------------------------------
+Calculate eligibility at: https://mriduljhawar15.github.io/infinity-finance/`;
+    }
+  });
+
+  setupShareButton('btnShareNpv', () => {
+    const rate = parseFloat(npvRateInput.value) || 0;
+    const initialOutlay = parseFloat(npvInitialOutlayInput.value) || 0;
+    const npv = document.getElementById('npvResultValue').textContent;
+    const status = document.getElementById('npvStatusBadge').textContent;
+    const irr = document.getElementById('metricIrr').textContent;
+    const pi = document.getElementById('metricPi').textContent;
+    const payback = document.getElementById('metricPayback').textContent;
+    const discPayback = document.getElementById('metricDiscountedPayback').textContent;
+    
+    return `Infinite Finance NPV Analysis:
+--------------------------------
+Initial Outlay: ${formatCurrency(initialOutlay)}
+Discount Rate: ${rate}%
+Net Present Value (NPV): ${npv} (${status})
+Internal Rate of Return (IRR): ${irr}
+Profitability Index (PI): ${pi}
+Payback Period: ${payback}
+Discounted Payback: ${discPayback}
+--------------------------------
+Evaluate investments at: https://mriduljhawar15.github.io/infinity-finance/`;
+  });
+
+  setupShareButton('btnShareFv', () => {
+    const pv = parseFloat(fvPvInput.value) || 0;
+    const pmt = parseFloat(fvPmtInput.value) || 0;
+    const rate = parseFloat(fvRateInput.value) || 0;
+    const years = parseFloat(fvYearsInput.value) || 0;
+    const freq = fvPmtFrequency.options[fvPmtFrequency.selectedIndex].text;
+    const fv = document.getElementById('fvResultValue').textContent;
+    const contrib = document.getElementById('fvBreakdownContributions').textContent;
+    const interest = document.getElementById('fvBreakdownInterest').textContent;
+    
+    return `Infinite Finance Future Value Projection:
+--------------------------------
+Initial Principal (PV): ${formatCurrency(pv)}
+Periodic Addition: ${formatCurrency(pmt)} (${freq})
+Interest Rate: ${rate}% p.a.
+Tenure: ${years} Years
+Estimated Future Value (FV): ${fv}
+Total Contributions: ${contrib}
+Total Interest Earned: ${interest}
+--------------------------------
+Project your wealth at: https://mriduljhawar15.github.io/infinity-finance/`;
+  });
+
+  function setupShareButton(buttonId, textGeneratorFunc) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    
+    btn.addEventListener('click', () => {
+      const shareText = textGeneratorFunc();
+      
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg> Summary Copied!`;
+          btn.style.background = 'var(--primary)';
+          btn.style.borderColor = 'var(--primary)';
+          btn.style.color = '#fff';
+          
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Could not copy summary to clipboard. Please select and copy results manually.');
+        });
+    });
   }
 });
