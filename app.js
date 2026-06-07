@@ -9,13 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunIcon = themeToggle.querySelector('.sun-icon');
   const moonIcon = themeToggle.querySelector('.moon-icon');
 
-  const btnFvTab = document.getElementById('btnFvTab');
-  const btnNpvTab = document.getElementById('btnNpvTab');
-  const btnEmiTab = document.getElementById('btnEmiTab');
-  const fvTabContent = document.getElementById('fv-tab');
-  const npvTabContent = document.getElementById('npv-tab');
-  const emiTabContent = document.getElementById('emi-tab');
-
   // EMI DOM Elements
   const emiAmountInput = document.getElementById('emiAmount');
   const emiComfortableInput = document.getElementById('emiComfortable');
@@ -123,30 +116,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================= TAB NAVIGATION =================
-  btnFvTab.addEventListener('click', () => switchTab('fv-tab'));
-  btnNpvTab.addEventListener('click', () => switchTab('npv-tab'));
-  btnEmiTab.addEventListener('click', () => switchTab('emi-tab'));
+  const tabButtons = document.querySelectorAll('.tab-navigation .tab-btn');
+  const tabContents = document.querySelectorAll('.workspace-content .tab-content');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+      switchTab(targetTab);
+    });
+  });
 
   function switchTab(tabId) {
-    btnFvTab.classList.remove('active');
-    btnNpvTab.classList.remove('active');
-    btnEmiTab.classList.remove('active');
+    tabButtons.forEach(btn => {
+      if (btn.getAttribute('data-tab') === tabId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
 
-    fvTabContent.classList.remove('active');
-    npvTabContent.classList.remove('active');
-    emiTabContent.classList.remove('active');
+    tabContents.forEach(content => {
+      if (content.id === tabId) {
+        content.classList.add('active');
+      } else {
+        content.classList.remove('active');
+      }
+    });
 
+    // Run tab-specific calculations if applicable
     if (tabId === 'fv-tab') {
-      btnFvTab.classList.add('active');
-      fvTabContent.classList.add('active');
       calculateFV();
     } else if (tabId === 'npv-tab') {
-      btnNpvTab.classList.add('active');
-      npvTabContent.classList.add('active');
       calculateNPV();
     } else if (tabId === 'emi-tab') {
-      btnEmiTab.classList.add('active');
-      emiTabContent.classList.add('active');
       calculateEMI();
     }
   }
@@ -945,5 +947,64 @@ document.addEventListener('DOMContentLoaded', () => {
       maximumFractionDigits: 2
     });
     return value < 0 ? `-${formatted}` : formatted;
+  }
+
+  // ================= INQUIRE NOW / SERVICES INTEGRATION =================
+  const inquireButtons = document.querySelectorAll('.btn-inquire');
+  const contactLoanTypeSelect = document.getElementById('contactLoanType');
+  const contactNameInput = document.getElementById('contactName');
+  const bottomContactSection = document.querySelector('.bottom-contact-section');
+
+  inquireButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const serviceType = btn.getAttribute('data-service');
+      
+      // Select the service in the dropdown
+      if (contactLoanTypeSelect) {
+        contactLoanTypeSelect.value = serviceType;
+      }
+      
+      // Scroll smoothly to contact form
+      if (bottomContactSection) {
+        bottomContactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      // Focus on the name input field
+      if (contactNameInput) {
+        setTimeout(() => {
+          contactNameInput.focus();
+        }, 800); // Wait for scroll animation to complete
+      }
+    });
+  });
+
+  // ================= BOTTOM CONTACT FORM SUBMISSION =================
+  const bottomContactForm = document.getElementById('bottomContactForm');
+  const contactSuccessMsg = document.getElementById('contactSuccessMsg');
+
+  if (bottomContactForm) {
+    bottomContactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Show success message
+      if (contactSuccessMsg) {
+        contactSuccessMsg.style.display = 'flex';
+        contactSuccessMsg.style.opacity = '1';
+        
+        // Reset form inputs after a short delay
+        setTimeout(() => {
+          bottomContactForm.reset();
+        }, 100);
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          contactSuccessMsg.style.opacity = '0';
+          setTimeout(() => {
+            contactSuccessMsg.style.display = 'none';
+            contactSuccessMsg.style.opacity = '1';
+          }, 300);
+        }, 5000);
+      }
+    });
   }
 });

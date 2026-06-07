@@ -85,6 +85,19 @@
         </svg>
         Future Value (FV)
       </button>
+      <button class="tab-btn" data-tab="services-tab" id="btnServicesTab">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        Our Services
+      </button>
+      <button class="tab-btn" data-tab="video-tab" id="btnVideoTab">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Video Tutorials
+      </button>
     </nav>
 
     <!-- Main Workspace -->
@@ -422,7 +435,187 @@
         </div>
       </section>
 
+      <!-- ================= OUR SERVICES ================= -->
+      <section id="services-tab" class="tab-content">
+        <div class="services-grid">
+          <!-- Home Loans -->
+          <div class="card service-card">
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <h3 class="service-title">Home Loans</h3>
+            </div>
+            <p class="service-desc">Get customized housing finance options with flexible tenures up to 30 years and competitive interest rates. Includes home purchase, construction, extension, and loan balance transfers.</p>
+            <button type="button" class="btn btn-secondary btn-inquire" data-service="Home Loan">Inquire Now</button>
+          </div>
+
+          <!-- Business Loans -->
+          <div class="card service-card">
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+              <h3 class="service-title">Business Loans</h3>
+            </div>
+            <p class="service-desc">Fuel your business growth with our comprehensive business finance options. We facilitate government schemes like <strong>Mudra Loans</strong> and <strong>PMEGP</strong>, MSME term loans, and unsecured business capital.</p>
+            <button type="button" class="btn btn-secondary btn-inquire" data-service="Business Loan">Inquire Now</button>
+          </div>
+
+          <!-- Project Loans -->
+          <div class="card service-card">
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <h3 class="service-title">Project Loans</h3>
+            </div>
+            <p class="service-desc">Tailored funding structures for setting up new manufacturing facilities, acquiring heavy plant & machinery, expanding operations, or executing large corporate projects.</p>
+            <button type="button" class="btn btn-secondary btn-inquire" data-service="Project Loan">Inquire Now</button>
+          </div>
+
+          <!-- Construction Finance -->
+          <div class="card service-card">
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="9" y1="3" x2="9" y2="21"></line>
+                  <line x1="15" y1="3" x2="15" y2="21"></line>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="3" y1="15" x2="21" y2="15"></line>
+                </svg>
+              </div>
+              <h3 class="service-title">Construction Finance</h3>
+            </div>
+            <p class="service-desc">Dedicated funding solutions engineered for real estate developers and builders. Get custom construction project loans, working capital, and builder finance at attractive structures.</p>
+            <button type="button" class="btn btn-secondary btn-inquire" data-service="Construction Finance">Inquire Now</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= VIDEO TUTORIALS ================= -->
+      <section id="video-tab" class="tab-content">
+        <div class="video-grid">
+          <div class="card video-card">
+            <h3 class="card-title">How to Use the Calculators</h3>
+            <div class="video-wrapper">
+              <!-- Responsive YouTube Embed Placeholder -->
+              <iframe 
+                src="https://www.youtube.com/embed/Zz947zG5hkw" 
+                title="Finance Tutorial" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="video-info">
+              <p>Learn how to calculate loan EMIs, estimate NPV with IRR metrics, and calculate future compound values. Once you set up your own YouTube channel, you can easily change this video to your custom tutorial!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
+
+    <!-- ================= BOTTOM CONTACT & CALLBACK FORM ================= -->
+    <section class="bottom-contact-section card">
+      <div class="contact-grid">
+        <!-- Contact Info Column -->
+        <div class="contact-info-column">
+          <h2 class="contact-title">Contact & Loan Support</h2>
+          <p class="contact-subtitle">Speak directly with our loan experts or submit a callback request for free financial consultation.</p>
+          
+          <div class="contact-details-list">
+            <a href="tel:1234567890" class="contact-detail-item">
+              <div class="contact-icon-bg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"></line>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span class="detail-label">Loan Helpline</span>
+                <span class="detail-value">1234567890</span>
+              </div>
+            </a>
+
+            <a href="mailto:advisory@infinitefinance.com" class="contact-detail-item">
+              <div class="contact-icon-bg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span class="detail-label">Email Advisory</span>
+                <span class="detail-value">advisory@infinitefinance.com</span>
+              </div>
+            </a>
+
+            <div class="contact-detail-item no-link">
+              <div class="contact-icon-bg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="contact-detail-text">
+                <span class="detail-label">Office Hours</span>
+                <span class="detail-value">Mon - Sat: 9:00 AM - 6:00 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Callback Form Column -->
+        <div class="contact-form-column">
+          <h3>Request a Callback</h3>
+          <form id="bottomContactForm" autocomplete="off">
+            <div class="input-group">
+              <label for="contactName">Your Name</label>
+              <input type="text" id="contactName" name="contactName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="grid-2col">
+              <div class="input-group">
+                <label for="contactPhone">Phone Number</label>
+                <input type="tel" id="contactPhone" name="contactPhone" placeholder="Enter 10-digit mobile" pattern="[0-9]{10}" required>
+              </div>
+              <div class="input-group">
+                <label for="contactLoanType">Required Service</label>
+                <select id="contactLoanType" name="contactLoanType">
+                  <option value="Home Loan">Home Loan</option>
+                  <option value="Business Loan">Business Loan</option>
+                  <option value="Project Loan">Project Loan</option>
+                  <option value="Construction Finance">Construction Finance</option>
+                  <option value="Financial Advisory" selected>Financial Advisory</option>
+                </select>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="btnSubmitContact">Submit Request</button>
+            
+            <div id="contactSuccessMsg" class="success-message" style="display: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Callback request submitted successfully! We will call you shortly.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
 
     <footer class="app-footer">
       <p>&copy; 2026 Infinite Finance. Designed with precision for professional financial analysis.</p>
