@@ -126,6 +126,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Home Dashboard quick launch buttons
+  const launchButtons = document.querySelectorAll('.btn-launch');
+  launchButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-launch');
+      switchTab(targetTab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Home Dashboard "View Services Offered" button
+  const btnHomeInquire = document.getElementById('btnHomeInquire');
+  if (btnHomeInquire) {
+    btnHomeInquire.addEventListener('click', () => {
+      switchTab('services-tab');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   function switchTab(tabId) {
     tabButtons.forEach(btn => {
       if (btn.getAttribute('data-tab') === tabId) {
@@ -866,6 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
           principal = comfortableEmi * (Math.pow(1 + monthlyRate, totalMonths) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, totalMonths));
         }
       }
+      emi = comfortableEmi;
       totalPayable = comfortableEmi * totalMonths;
       totalInterest = Math.max(0, totalPayable - principal);
 
@@ -878,6 +898,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Render chart
       renderEmiChart(principal, totalInterest, 'Eligible Loan Principal', 'Total Interest');
     }
+
+    // Generate Amortization Schedule
+    const finalEmi = activeMode === 'emi' ? emi : parseFloat(emiComfortableInput.value) || 0;
+    generateAmortizationSchedule(principal, monthlyRate, years, finalEmi);
   }
 
   function renderEmiChart(principal, interest, labelPrincipal, labelInterest) {
@@ -1006,5 +1030,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
       }
     });
+  }
+
+  // ================= AMORTIZATION SCHEDULE LOGIC =================
+  const btnToggleAmortization = document.getElementById('btnToggleAmortization');
+  const amortizationContainer = document.getElementById('amortizationContainer');
+
+  if (btnToggleAmortization && amortizationContainer) {
+    btnToggleAmortization.addEventListener('click', () => {
+      if (amortizationContainer.style.display === 'none') {
+        amortizationContainer.style.display = 'block';
+        btnToggleAmortization.textContent = 'Hide Annual Amortization Schedule';
+        
+        // Smooth scroll to schedule
+        setTimeout(() => {
+          amortizationContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      } else {
+        amortizationContainer.style.display = 'none';
+        btnToggleAmortization.textContent = 'View Annual Amortization Schedule';
+      }
+    });
+  }
+
+  function generateAmortizationSchedule(principal, monthlyRate, years, emi) {
+    const tbody = document.getElementById('amortizationBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (principal <= 0 || emi <= 0 || years <= 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Please enter valid loan parameters to generate the schedule.</td></tr>';
+      return;
+    }
+
+    let balance = principal;
+    const roundedYears = Math.ceil(years);
+
+    for (let year = 1; year <= roundedYears; year++) {
+      let yearInterestPaid = 0;
+      let yearPrincipalPaid = 0;
+      let yearTotalPaid = 0;
+      const startBalance = balance;
+
+      // Calculate for 12 months (or fewer in the final year if tenure is fractional)
+      const monthsInYear = year === roundedYears && years % 1 !== 0 
+        ? Math.round((years % 1) * 12) 
+        : 12;
+
+      for (let m = 1; m <= monthsInYear; m++) {
+        if (balance <= 0) break;
+
+        const interest = balance * monthlyRate;
+        let principalPaid = emi - interest;
+
+        if (principalPaid > balance || (year === roundedYears && m === monthsInYear)) {
+          principalPaid = balance;
+        }
+
+        const totalPaid = principalPaid + interest;
+
+        yearInterestPaid += interest;
+        yearPrincipalPaid += principalPaid;
+        yearTotalPaid += totalPaid;
+        balance -= principalPaid;
+      }
+
+      if (yearPrincipalPaid <= 0) break;
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>Year ${year}</td>
+        <td>${formatCurrency(startBalance)}</td>
+        <td>${formatCurrency(yearTotalPaid)}</td>
+        <td>${formatCurrency(yearPrincipalPaid)}</td>
+        <td>${formatCurrency(yearInterestPaid)}</td>
+        <td>${formatCurrency(Math.max(0, balance))}</td>
+      `;
+      tbody.appendChild(row);
+
+      if (balance <= 0) break;
+    }
   }
 });

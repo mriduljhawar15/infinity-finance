@@ -1188,4 +1188,251 @@ select:focus {
   border-color: rgba(0, 0, 0, 0.15);
 }
 
+/* ================= HOME DASHBOARD TAB ================= */
+.home-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 1rem 0;
+}
+
+.home-hero h2 {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-hero p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.launch-card {
+  transition: all var(--transition-normal);
+  height: 100%;
+  padding: 2rem 1.75rem;
+}
+
+.launch-card:hover {
+  transform: translateY(-5px);
+}
+
+#cardLaunchEmi::before { background: var(--primary) !important; }
+#cardLaunchNpv::before { background: var(--secondary) !important; }
+#cardLaunchFv::before { background: var(--primary) !important; }
+
+.launch-card:hover#cardLaunchEmi {
+  border-color: var(--primary);
+  box-shadow: 0 12px 24px var(--primary-glow);
+}
+
+.launch-card:hover#cardLaunchNpv {
+  border-color: var(--secondary);
+  box-shadow: 0 12px 24px var(--secondary-glow);
+}
+
+.launch-card:hover#cardLaunchFv {
+  border-color: var(--primary);
+  box-shadow: 0 12px 24px var(--primary-glow);
+}
+
+.launch-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.launch-icon-box {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.box-emi {
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.box-npv {
+  background: var(--secondary-glow);
+  color: var(--secondary);
+}
+
+.box-fv {
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.launch-card:hover .box-emi { background: var(--primary); color: #fff; }
+.launch-card:hover .box-npv { background: var(--secondary); color: #fff; }
+.launch-card:hover .box-fv { background: var(--primary); color: #fff; }
+
+.launch-card-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.launch-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  flex-grow: 1;
+}
+
+.btn-launch {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+}
+
+/* Home Info Banner */
+.home-info-banner {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.25rem;
+  background: linear-gradient(135deg, rgba(20, 26, 42, 0.7), rgba(15, 22, 36, 0.7));
+}
+
+.home-info-banner::before {
+  background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+}
+
+.info-banner-content {
+  flex: 1;
+}
+
+.info-banner-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.info-banner-content p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+#btnHomeInquire {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .home-info-banner {
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  #btnHomeInquire {
+    width: 100%;
+  }
+}
+
+/* ================= LOAN AMORTIZATION SCHEDULE ================= */
+.amortization-schedule-container {
+  border-top: 1px solid var(--card-border);
+  padding-top: 2rem;
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.table-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--card-border);
+  background: rgba(10, 15, 26, 0.3);
+  margin-top: 1rem;
+}
+
+.amortization-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.amortization-table th, 
+.amortization-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+
+.amortization-table th {
+  background: rgba(15, 22, 36, 0.8);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.amortization-table tr:last-child td {
+  border-bottom: none;
+}
+
+.amortization-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.amortization-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.amortization-table td:first-child {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.amortization-table td:not(:first-child) {
+  font-family: var(--font-heading);
+}
+
+[data-theme="light"] .table-scroll-container {
+  background: #ffffff;
+}
+
+[data-theme="light"] .amortization-table th {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .amortization-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.01);
+}
+
 
